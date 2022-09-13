@@ -1,0 +1,140 @@
+<html>
+  <head>
+    <body bgcolor="Aquamarine">
+      <center>
+        <label for="name">Name:</label>&nbsp&nbsp<input type="text" id="name"
+          name="Name" placeholder="Mahi rajendra pahelkar" maxlength="30"><br><br>
+        <label for="dept">Department:</label>&nbsp&nbsp<input type="text"
+          id="dept" name="Department" placeholder="Electronic Engineering"
+          maxlength="30"><br><br>
+
+        <label for="class">Class:</label>&nbsp&nbsp<input type="text" id="class"
+          name="Class" placeholder="B.E" maxlength="30"><br><br>
+
+        <label for="sub">Subject</label>&nbsp&nbsp&nbsp&nbsp
+        <input name="Maths 3 marks" type="text" placeholder="MATHS3" id="m3">
+        <label class="grade" id="m3Grade"></label><br><br>
+
+
+        <input name="Operating System marks" type="text" placeholder="OPERAATING SYSTEM" id="os">
+        <label class="grade" id="osGrade"></label><br><br>
+
+        <input name="Automata Theory marks" type="text" placeholder="AUTOMATA THEORY" id="at">
+        <label class="grade" id="atGrade"></label><br><br>
+
+        <input name="COMPUTER ORGANIZATION AND ARCHITECTURE marks"type="text" placeholder="COMPUTER ORGANIZATION AND ARCHITECTURE"
+          id="coa">
+        <label class="grade" id="coaGrade"></label><br><br>
+
+        <input name="Computer Network marks"type="text" placeholder="COMPUTER NETWORK" id="cn">
+        <label class="grade" id="cnGrade"></label><br><br>
+
+        <input type="button" name="" value="Submit" class="app-form-button"
+          onclick="handleSubmit()">
+
+        <p id="showData"> </p>
+
+        <script>
+
+    const name = document.getElementById("name");
+    const dept = document.getElementById("dept");
+    const ipClass = document.getElementById("class");
+    const m3Input = document.getElementById('m3');
+    const osInput = document.getElementById('os');
+    const atInput = document.getElementById('at');
+    const coaInput = document.getElementById('coa');
+    const cnInput = document.getElementById('cn');
+    let isFailed = false;
+
+    const inputList = document.querySelectorAll("input[type='text']");
+
+    inputList.forEach(ip => {
+        ip.addEventListener("focusout", e => {
+            checkGrade(document.getElementById(e.target.id + "Grade"), e.target.value);
+        })
+    });
+
+    function checkGrade(target, marks) {
+        // console.log(marks)
+        marks = parseInt(marks);
+        let displayGrade = ""
+
+        if (marks) {
+            if (marks <= 100 && marks >= 80) {
+                displayGrade = 'A';
+            } else if (marks <= 79 && marks >= 60) {
+                displayGrade = 'B';
+            } else if (marks <= 59 && marks >= 32) {
+                displayGrade = 'C';
+            } else {
+              displayGrade = 'F';
+              isFailed = true;
+            }
+
+            target.innerText = displayGrade;
+            console.log(target)
+        }
+    }
+
+    function validate() {
+        const inputList = [name, dept, ipClass, m3Input, osInput, atInput, coaInput, cnInput];
+        let isValid = true;
+        for (let i = 0; i < inputList.length; i++) {
+            if (inputList[i].value.trim().length == 0) {
+                alert("Please Enter " + inputList[i].name);
+                isValid = false;
+                break;
+            }
+        }
+        return isValid;
+    }
+
+    function handleSubmit() {
+        if (validate()) {
+            calcy();
+        }
+    }
+
+
+    const calcy = () => {
+
+        let m3 = document.getElementById('m3').value;
+        let os = document.getElementById('os').value;
+        let at = document.getElementById('at').value;
+        let coa = document.getElementById('coa').value;
+        const cn = document.getElementById('cn').value;
+        const maxMarks = 500;
+
+        let grades = "";
+
+
+        let totalGrades = parseFloat(m3) + parseFloat(os) + parseFloat(at) + parseFloat(coa) + parseFloat(cn);
+        console.log("Total Grades: " + totalGrades)
+
+        let perc = (totalGrades / maxMarks) * 100;
+        console.log("Percentage: " + perc);
+
+        if (perc <= 100 && perc >= 80) {
+            grades = 'A';
+        } else if (perc <= 79 && perc >= 60) {
+            grades = 'B';
+        } else if (perc <= 59 && perc >= 32) {
+            grades = 'C';
+        } else {
+            grades = 'F';
+        }
+
+        if (perc >= 39.5 && !isFailed) {
+            document.getElementById('showData').innerHTML = ` <strong>Marks Obtained</strong>: ${totalGrades}  out of ${maxMarks} <br>  <strong>Percentage</strong>: ${perc}% <br> Your grade is ${grades}. You are Pass. `
+        } else {
+            document.getElementById('showData').innerHTML = ` <strong>Marks Obtained</strong>: ${totalGrades}  out of ${maxMarks} <br>  <strong>Percentage</strong>: ${perc}% <br> Your grade is F. You are Fail. `
+        }
+
+    }
+
+</script>
+      </body>
+    </html>
+
+  </head>
+  <body>
